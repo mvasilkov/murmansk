@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import re
 import sys
 
@@ -10,7 +11,10 @@ def test_python3():
 
 
 def test_objectid():
-    assert re.fullmatch('[a-z0-9]{24}', str(ObjectId()))
+    objectid = ObjectId()
+    t = datetime.now(timezone.utc)
+    assert re.fullmatch('[a-z0-9]{24}', str(objectid))
+    assert (t - objectid.generation_time).total_seconds() < 2
 
 
 def test_commonmark():
