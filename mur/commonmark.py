@@ -1,11 +1,22 @@
 from collections import namedtuple
 from ctypes import CDLL, c_char_p, c_size_t, c_int
+from pathlib import WindowsPath
 import platform
 
-if platform.system() == 'Darwin':
-    cmark = CDLL('libcmark.dylib')
-else:
-    cmark = CDLL('libcmark.so')
+
+def _libcmark():
+    system = platform.system()
+
+    if system == 'Darwin':
+        return 'libcmark.dylib'
+    elif system == 'Windows':
+        binary_dependencies = WindowsPath(__file__).parents[1] / 'binary_dependencies'
+        return str(binary_dependencies / 'cmark.dll')
+    else:
+        return 'libcmark.so'
+
+
+cmark = CDLL(_libcmark())
 
 cmark_markdown_to_html = cmark.cmark_markdown_to_html
 cmark_markdown_to_html.argtypes = (c_char_p, c_size_t, c_int)
@@ -14,7 +25,7 @@ cmark_markdown_to_html.restype = c_char_p
 cmark_version = cmark.cmark_version
 cmark_version.restype = c_int
 
-VT = namedtuple('VT', 'major minor patchlevel')
+Version = namedtuple('Version', 'major minor patchlevel')
 
 
 def commonmark(string):
@@ -23,4 +34,4 @@ def commonmark(string):
 
 
 def version():
-    return VT(*cmark_version().to_bytes(3, byteorder='big'))
+    return Version(*cmark_version().to_bytes(3, byteorder='big'))
