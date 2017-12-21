@@ -7,6 +7,7 @@ import django
 from mongo.objectid import ObjectId
 from mur.commands import sha256
 from mur.commonmark import commonmark, version as cmark_version
+import requests
 
 
 def test_python3():
@@ -33,5 +34,9 @@ def test_openssl():
             '4e879c5c63684e8f23998c3a170cc1c5f789808a6ffaf4cef5fd7ab2a4d1bc81')
 
 
-def test_django():
+def test_django(live_server):
     assert django.VERSION[0] == 2
+    r = requests.get(
+        str(live_server) + '/static/node_modules/systematize/build/systematize.css')
+    assert r.status_code == 200
+    assert r.text.startswith('/*! systematize.scss | MIT License')

@@ -79,4 +79,16 @@ USE_I18N = USE_L10N = USE_TZ = False
 # Static files
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+STATIC_ROOT = (OUR_ROOT / 'static').as_posix()
+
 STATIC_URL = '/static/'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'yarn.finders.YarnFinder',
+]
+
+YARN_ROOT_PATH = OUR_ROOT.as_posix()
+
+YARN_STATIC_FILES_PREFIX = 'node_modules'

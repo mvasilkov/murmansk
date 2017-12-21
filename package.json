@@ -1,0 +1,13 @@
+{
+  "name": "murmansk",
+  "version": "1.0.0",
+  "description": "Murmansk Cold Storage",
+  "main": "manage.py",
+  "repository": "git@github.com:mvasilkov/murmansk.git",
+  "author": "Mark Vasilkov",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "systematize": "^2.0.0"
+  }
+}
