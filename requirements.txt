@@ -1,1 +1,2 @@
+Django==2.0
 pytest==3.3.1

@@ -3,6 +3,7 @@ import re
 from subprocess import check_output
 import sys
 
+import django
 from mongo.objectid import ObjectId
 from mur.commands import sha256
 from mur.commonmark import commonmark, version as cmark_version
@@ -30,3 +31,7 @@ def test_openssl():
     assert version.startswith('OpenSSL 1.0')
     assert (sha256(__file__.replace('test_requirements.py', 'utf-8.txt')) ==
             '4e879c5c63684e8f23998c3a170cc1c5f789808a6ffaf4cef5fd7ab2a4d1bc81')
+
+
+def test_django():
+    assert django.VERSION[0] == 2
