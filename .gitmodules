@@ -1,0 +1,3 @@
+[submodule "local_storage"]
+	path = local_storage
+	url = git@github.com:mvasilkov/murmansk_local_storage.git
