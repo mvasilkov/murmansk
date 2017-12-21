@@ -1,8 +1,10 @@
 from datetime import datetime, timezone
 import re
+from subprocess import check_output
 import sys
 
 from mongo.objectid import ObjectId
+from mur.commands import sha256
 from mur.commonmark import commonmark, version as cmark_version
 
 
@@ -21,3 +23,10 @@ def test_commonmark():
     version = cmark_version()
     assert version.major == 0 and version.minor >= 28
     assert commonmark('# heading') == '<h1>heading</h1>\n'
+
+
+def test_openssl():
+    version = check_output(['openssl', 'version'], encoding='utf-8')
+    assert version.startswith('OpenSSL 1.0')
+    assert (sha256(__file__.replace('test_requirements.py', 'utf-8.txt')) ==
+            '4e879c5c63684e8f23998c3a170cc1c5f789808a6ffaf4cef5fd7ab2a4d1bc81')

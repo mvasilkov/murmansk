@@ -9,11 +9,12 @@ def _libcmark():
 
     if system == 'Darwin':
         return 'libcmark.dylib'
-    elif system == 'Windows':
+
+    if system == 'Windows':
         binary_dependencies = WindowsPath(__file__).parents[1] / 'binary_dependencies'
         return str(binary_dependencies / 'cmark.dll')
-    else:
-        return 'libcmark.so'
+
+    return 'libcmark.so'
 
 
 cmark = CDLL(_libcmark())
