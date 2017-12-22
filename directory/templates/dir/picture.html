@@ -3,6 +3,6 @@
 {% block title %}Picture{% endblock %}
 
 {% block content %}
-    <img src="{{ MEDIA_URL }}{{ picture.picture.url }}" alt="{{ picture.picture.name }}" height="{{ picture.height }}"
+    <img src="{{ MEDIA_URL }}{{ picture.file.url }}" alt="{{ picture.file.name }}" height="{{ picture.height }}"
          width="{{ picture.width }}">
 {% endblock %}

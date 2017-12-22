@@ -28,7 +28,7 @@ def upload_picture(request):
         if form.is_valid():
             pic_file = request.FILES['picture']
             size, sha256 = _compute_size_sha256(pic_file)
-            pic = Picture(picture=pic_file, size=size, sha256=sha256)
+            pic = Picture(file=pic_file, size=size, sha256=sha256)
             pic.save()
             return redirect(pic)
     else:

@@ -5,5 +5,5 @@ from .models import Picture
 
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
-    list_display = ('short_sha256', 'picture', 'width', 'height', 'readable_size')
+    list_display = ('short_sha256', 'file', 'width', 'height', 'readable_size')
     readonly_fields = ('height', 'width', 'size', 'sha256')

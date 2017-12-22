@@ -1,27 +1,29 @@
+import hashlib
 from pathlib import PurePath
 
 from django.db import models
 from django.urls import reverse
 from humanfriendly import format_size
-import mmh3
 from mongo.objectid import ObjectId
 from mur.decorators import str_method_from_attr
 
+BUCKET_SIZE = 1  # 4 bits
+
 
 def _picture_path(unused, filename):
-    suffix = PurePath(filename).suffix
+    suffix = PurePath(filename).suffix.lower()
     if suffix == '.jpg':
         suffix = '.jpeg'
     if suffix not in ('.gif', '.jpeg', '.png'):
         raise RuntimeError('Bad picture')
     path = '%s%s' % (ObjectId(), suffix)
-    bucket = mmh3.hash(path, signed=False) % 16
-    return '%x/%s' % (bucket, path)
+    bucket = hashlib.sha256(path.encode('us-ascii')).hexdigest()[:BUCKET_SIZE]
+    return '%s/%s' % (bucket, path)
 
 
-@str_method_from_attr('picture')
+@str_method_from_attr('file')
 class Picture(models.Model):
-    picture = models.ImageField(upload_to=_picture_path, height_field='height', width_field='width', unique=True)
+    file = models.ImageField(upload_to=_picture_path, height_field='height', width_field='width', unique=True)
     height = models.PositiveSmallIntegerField()
     width = models.PositiveSmallIntegerField()
     size = models.BigIntegerField()
