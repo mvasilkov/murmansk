@@ -2,3 +2,8 @@
 __pycache__/
 /.cache/
 /node_modules/
+
+# IntelliJ
+
+/.idea/
+/murmansk.iml

@@ -4,6 +4,7 @@ from subprocess import check_output
 import sys
 
 import django
+import mmh3
 from mongo.objectid import ObjectId
 from mur.commands import sha256
 from mur.commonmark import commonmark, version as cmark_version
@@ -17,7 +18,7 @@ def test_python3():
 def test_objectid():
     objectid = ObjectId()
     t = datetime.now(timezone.utc)
-    assert re.fullmatch('[a-z0-9]{24}', str(objectid))
+    assert re.fullmatch('[a-f0-9]{24}', str(objectid))
     assert (t - objectid.generation_time).total_seconds() < 2
 
 
@@ -40,3 +41,8 @@ def test_django(live_server):
         str(live_server) + '/static/node_modules/systematize/build/systematize.css')
     assert r.status_code == 200
     assert r.text.startswith('/*! systematize.scss | MIT License')
+
+
+def test_murmurhash3():
+    assert mmh3.hash('-Infinity') == -1167832603
+    assert mmh3.hash('-Infinity', signed=False) == 3127134693

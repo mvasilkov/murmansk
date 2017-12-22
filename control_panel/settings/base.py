@@ -80,6 +80,10 @@ USE_I18N = USE_L10N = USE_TZ = False
 # Static files
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+MEDIA_ROOT = (OUR_ROOT / 'local_storage' / 'media').as_posix()
+
+MEDIA_URL = '/media/'
+
 STATIC_ROOT = (OUR_ROOT / 'static').as_posix()
 
 STATIC_URL = '/static/'
