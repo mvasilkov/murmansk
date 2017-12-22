@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'directory',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,7 @@ WSGI_APPLICATION = 'control_panel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': (OUR_ROOT / 'db.sqlite3').as_posix(),
+        'NAME': (OUR_ROOT / 'local_storage' / 'db.sqlite3').as_posix(),
     }
 }
 
