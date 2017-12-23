@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from humanfriendly import format_size
 from mongo.objectid import ObjectId
+from mptt.models import MPTTModel, TreeForeignKey
 from mur.decorators import str_method_from_attr
 
 BUCKET_SIZE = 1  # 4 bits
@@ -38,3 +39,18 @@ class Picture(models.Model):
 
     def get_absolute_url(self):
         return reverse('picture', args=[self.id])
+
+
+@str_method_from_attr('name')
+class Folder(MPTTModel):
+    name = models.CharField(max_length=250, unique=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subdirectories',
+                            db_index=True)
+    pictures = models.ManyToManyField(Picture, related_name='folders')
+    comment = models.TextField(blank=True)
+
+    def get_absolute_url(self):
+        return reverse('select_folder', args=[self.id])
+
+    class MPTTMeta:
+        order_insertion_by = ['name']

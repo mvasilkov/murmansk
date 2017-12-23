@@ -2,8 +2,8 @@ import hashlib
 
 from django.shortcuts import get_object_or_404, redirect, render
 
-from directory.forms import PictureForm
-from directory.models import Picture
+from .forms import PictureForm, FolderNameForm
+from .models import Picture, Folder
 
 
 def _compute_size_sha256(pic_file):
@@ -26,7 +26,7 @@ def upload_picture(request):
     if request.method == 'POST':
         form = PictureForm(request.POST, request.FILES)
         if form.is_valid():
-            pic_file = request.FILES['picture']
+            pic_file = request.FILES['upload_picture']
             size, sha256 = _compute_size_sha256(pic_file)
             pic = Picture(file=pic_file, size=size, sha256=sha256)
             pic.save()
@@ -35,3 +35,37 @@ def upload_picture(request):
         form = PictureForm()
 
     return render(request, 'dir/upload_picture.html', {'form': form})
+
+
+def list_folders(request):
+    if request.method == 'POST':
+        form = FolderNameForm(request.POST)
+        if form.is_valid():
+            new_folder = Folder(name=form.cleaned_data['folder_name'])
+            new_folder.save()
+            return redirect(new_folder)
+    else:
+        form = FolderNameForm()
+
+    return render(request, 'dir/list_folders.html', {
+        'folders': Folder.objects.all(),
+        'selected': None,
+        'form': form,
+    })
+
+
+def select_folder(request, folder_id: int):
+    if request.method == 'POST':
+        form = FolderNameForm(request.POST)
+        if form.is_valid():
+            new_folder = Folder(name=form.cleaned_data['folder_name'], parent_id=folder_id)
+            new_folder.save()
+            return redirect(new_folder)
+    else:
+        form = FolderNameForm()
+
+    return render(request, 'dir/select_folder.html', {
+        'folders': Folder.objects.all(),
+        'selected': folder_id,
+        'form': form,
+    })

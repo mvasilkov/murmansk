@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block title %}Folders{% endblock %}
+
+{% block content %}
+    {% block directory_tree %}
+        <h3>Directory tree</h3>
+        <ul>
+            {% recursetree folders %}
+                <li {% ifequal node.id selected %}class="selected"{% endifequal %}>
+                    <a href="{% url 'select_folder' node.id %}">{{ node.name }}</a>
+                    {% if not node.is_leaf_node %}
+                        <ul>
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+        {% if selected %}
+            <a href="{% url 'list_folders' %}">Clear selection</a>
+        {% endif %}
+    {% endblock %}
+
+    {% block folder_actions %}
+        <h3>Create a top-level directory</h3>
+        <form action="" method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Create">
+        </form>
+    {% endblock %}
+{% endblock %}

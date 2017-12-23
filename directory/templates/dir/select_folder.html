@@ -1,0 +1,10 @@
+{% extends 'dir/list_folders.html' %}
+
+{% block folder_actions %}
+    <h3>Create a subdirectory</h3>
+    <form action="" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Create">
+    </form>
+{% endblock %}
