@@ -14,3 +14,4 @@ class PictureAdmin(admin.ModelAdmin):
 @admin.register(Folder)
 class FolderAdmin(MPTTModelAdmin):
     list_display = ['name']
+    mptt_level_indent = 25

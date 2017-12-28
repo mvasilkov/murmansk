@@ -4,7 +4,17 @@
     <h3>Create a subdirectory</h3>
     <form action="" method="post">
         {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="Create">
+        <p>
+            {% csrf_token %}
+            <input type="submit" value="Create">
+        </p>
+    </form>
+
+    <h3>Delete folder</h3>
+    <form action="{% url 'delete_folder' selected %}" method="post">
+        <p>
+            {% csrf_token %}
+            <input type="submit" value="Delete">
+        </p>
     </form>
 {% endblock %}

@@ -5,7 +5,9 @@
 {% block content %}
     <form action="" enctype="multipart/form-data" method="post">
         {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="Upload">
+        <p>
+            {% csrf_token %}
+            <input type="submit" value="Upload">
+        </p>
     </form>
 {% endblock %}

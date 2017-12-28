@@ -1,5 +1,6 @@
 import hashlib
 
+from django.http.response import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PictureForm, FolderNameForm
@@ -69,3 +70,13 @@ def select_folder(request, folder_id: int):
         'selected': folder_id,
         'form': form,
     })
+
+
+def delete_folder(request, folder_id: int):
+    if request.method == 'POST':
+        folder = get_object_or_404(Folder, id=folder_id)
+        folder.delete()
+        if folder.parent_id:
+            return redirect('select_folder', folder.parent_id)
+        return redirect('list_folders')
+    return HttpResponseNotAllowed(permitted_methods=['POST'])

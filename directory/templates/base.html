@@ -1,11 +1,18 @@
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="ru-RU">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Serif:400,400i">
+        <link rel="stylesheet" href="{% static 'node_modules/systematize/build/systematize.min.css' %}">
+        <link rel="stylesheet" href="{% static 'medium.css' %}">
+        <link rel="stylesheet" href="{% static 'classes.css' %}">
+        <script src="//use.edgefonts.net/lato:n7.js"></script>
     </head>
     <body>
-        {% block content %}{% endblock %}
+        <div class="container">
+            <article>{% block content %}{% endblock %}</article>
+        </div>
     </body>
 </html>
