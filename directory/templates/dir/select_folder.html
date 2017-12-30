@@ -1,6 +1,23 @@
 {% extends 'dir/list_folders.html' %}
+{% load mur_tags %}
 
 {% block folder_actions %}
+    <h3>Comment</h3>
+    {% if selected_folder.comment %}
+        <div class="comment">
+            {{ selected_folder.comment|commonmark }}
+        </div>
+        <form action="{% url 'remove_folder_comment' selected %}" method="post">
+            <p>
+                {% csrf_token %}
+                <input type="submit" value="Remove comment">
+            </p>
+        </form>
+    {% else %}
+        <p>Nobody here but us chickens!</p>
+    {% endif %}
+    <p><a href="{% url 'change_folder_comment' selected %}">Change comment</a></p>
+
     <h3>Create a subdirectory</h3>
     <form action="" method="post">
         {{ form.as_p }}

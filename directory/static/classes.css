@@ -1,3 +1,9 @@
 .selected > a {
-    background-color: #fff3bc;
+    background: #fff3bc;
+    padding: 2px 8px;
+}
+
+.comment {
+    background: #fff7d7;
+    padding: 18px 20px;
 }

@@ -1,13 +1,5 @@
 @charset "UTF-8";
 
-article {
-    font-family: 'Noto Serif', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', sans-serif;
-}
-
-h1, h2, h3 {
-    font-family: Lato, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', sans-serif;
-}
-
 .container {
     margin: 0 auto;
     max-width: 700px;

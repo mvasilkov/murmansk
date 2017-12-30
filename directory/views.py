@@ -3,7 +3,7 @@ import hashlib
 from django.http.response import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import PictureForm, FolderNameForm
+from .forms import PictureForm, FolderNameForm, FolderCommentForm
 from .models import Picture, Folder
 
 
@@ -56,6 +56,8 @@ def list_folders(request):
 
 
 def select_folder(request, folder_id: int):
+    selected_folder = get_object_or_404(Folder, id=folder_id)
+
     if request.method == 'POST':
         form = FolderNameForm(request.POST)
         if form.is_valid():
@@ -68,6 +70,7 @@ def select_folder(request, folder_id: int):
     return render(request, 'dir/select_folder.html', {
         'folders': Folder.objects.all(),
         'selected': folder_id,
+        'selected_folder': selected_folder,
         'form': form,
     })
 
@@ -79,4 +82,28 @@ def delete_folder(request, folder_id: int):
         if folder.parent_id:
             return redirect('select_folder', folder.parent_id)
         return redirect('list_folders')
+    return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+
+def change_folder_comment(request, folder_id: int):
+    folder = get_object_or_404(Folder, id=folder_id)
+
+    if request.method == 'POST':
+        form = FolderCommentForm(request.POST)
+        if form.is_valid():
+            folder.comment = form.cleaned_data['comment']
+            folder.save()
+            return redirect(folder)
+    else:
+        form = FolderCommentForm({'comment': folder.comment})
+
+    return render(request, 'dir/change_folder_comment.html', {'form': form})
+
+
+def remove_folder_comment(request, folder_id: int):
+    if request.method == 'POST':
+        folder = get_object_or_404(Folder, id=folder_id)
+        folder.comment = ''
+        folder.save()
+        return redirect(folder)
     return HttpResponseNotAllowed(permitted_methods=['POST'])

@@ -15,3 +15,7 @@ class FolderNameForm(forms.Form):
         if Folder.objects.filter(name=folder_name).count():
             raise forms.ValidationError('A folder with the same name already exists')
         return folder_name
+
+
+class FolderCommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea, required=False)
