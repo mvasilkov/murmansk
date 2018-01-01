@@ -46,7 +46,7 @@ class Folder(MPTTModel):
     name = models.CharField(max_length=250, unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='subdirectories',
                             db_index=True)
-    pictures = models.ManyToManyField(Picture, related_name='folders')
+    pictures = models.ManyToManyField(Picture, related_name='folders', blank=True)
     comment = models.TextField(blank=True)
 
     def get_absolute_url(self):

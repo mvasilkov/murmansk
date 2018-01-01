@@ -3,8 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from directory.views import (picture, upload_picture, list_folders, select_folder, delete_folder,
-                             change_folder_comment, remove_folder_comment)
+from finder.views import (picture, upload_picture, list_folders, select_folder, delete_folder,
+                          change_folder_comment, remove_folder_comment)
 
 urlpatterns = [
     path('pictures/<int:pic_id>/', picture, name='picture'),

@@ -2,7 +2,6 @@ from pathlib import Path
 
 OUR_ROOT = Path(__file__).parents[2].resolve()
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -13,7 +12,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mptt',
-    'directory',
+    'diskarray',
+    'finder',
 ]
 
 MIDDLEWARE = [
@@ -46,7 +46,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'control_panel.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -57,7 +56,6 @@ DATABASES = {
     }
 }
 
-
 # Cache
 # https://docs.djangoproject.com/en/2.0/topics/cache/
 
@@ -67,7 +65,6 @@ CACHES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -76,7 +73,6 @@ LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Israel'
 
 USE_I18N = USE_L10N = USE_TZ = False
-
 
 # Static files
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

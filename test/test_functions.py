@@ -1,6 +1,6 @@
 import re
 
-from directory.models import BUCKET_SIZE, _picture_path
+from finder.models import BUCKET_SIZE, _picture_path
 import pytest
 
 
