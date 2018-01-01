@@ -28,7 +28,7 @@ class Command(BaseCommand):
         mur_disk_path = joinpath(path, MUR_DISK)
         assert not isfile(mur_disk_path)
 
-        with open(mur_disk_path, 'w', encoding='utf-8', newline='\n') as file:
+        with open(mur_disk_path, 'w', encoding='us-ascii', newline='\n') as file:
             print(disk.objectid, file=file)
 
         self.stdout.write('Saved %s' % mur_disk_path)

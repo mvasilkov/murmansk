@@ -1,11 +1,14 @@
 from datetime import datetime
+from os.path import getsize, split as splitpath
 import platform
+import re
 
 from django.core.cache import cache
 from django.db import models
 from humanfriendly import format_size
 
 from mongo.objectid import ObjectId
+from mur import MUR_DISK
 from mur.commands import mount_lines
 from mur.decorators import str_method_from_attr
 
@@ -41,13 +44,39 @@ class Disk(models.Model):
 
         return False
 
+    def should_be_mounted(self):
+        return self.coupling == Disk.LOCAL and self.dev_name and self.mount_point and platform.system() != 'Windows'
+
     @staticmethod
     def containing_path(path):
         for disk in Disk.objects.all():
-            if path.startswith(disk.mount_point):
+            if disk.mount_point and path.startswith(disk.mount_point):
                 return disk
 
         return None
+
+    @staticmethod
+    def from_file(mur_disk):
+        mount_point, filename = splitpath(mur_disk)
+        if filename != MUR_DISK:
+            raise RuntimeError('Expected filename: %s, got: %s' % (MUR_DISK, filename))
+
+        try:
+            size = getsize(mur_disk)
+        except OSError:
+            raise RuntimeError('File not found | inaccessible')
+
+        assert size == 25  # objectid + '\n'
+
+        with open(mur_disk, 'r', encoding='us-ascii', newline='\n') as file:
+            objectid = file.read()
+            assert objectid.endswith('\n')
+            objectid = objectid.rstrip('\n')
+            assert re.fullmatch('[a-f0-9]{24}', objectid)
+
+        disk = Disk.objects.get(objectid=objectid)
+        disk.live_mount_point = mount_point
+        return disk
 
 
 @str_method_from_attr('name')
@@ -75,6 +104,12 @@ class File(models.Model):
 
     def short_sha256(self):
         return self.sha256[:7]
+
+    def guess_media_class(self):
+        if self.name.endswith('.mp4') or self.name.endswith('.mkv'):
+            return File.VIDEO
+
+        return File.BINARY
 
 
 class FileCopy(models.Model):
