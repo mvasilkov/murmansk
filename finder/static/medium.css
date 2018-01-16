@@ -35,12 +35,12 @@ h3 {
     letter-spacing: -0.018em;
 }
 
-p, ul {
-    margin: 0 0 29px;
+h1:first-child, h2:first-child, h3:first-child {
+    margin-top: 0;
 }
 
-form p {
-    margin-bottom: 14px;
+p, ul {
+    margin: 0 0 29px;
 }
 
 p:last-child, ul:last-child {
@@ -50,10 +50,6 @@ p:last-child, ul:last-child {
 ul {
     list-style: none;
     padding: 0;
-}
-
-ul ul {
-    margin-top: 14px;
 }
 
 li {
@@ -109,8 +105,4 @@ li::before {
     li::before {
         font-size: 14.4px;
     }
-}
-
-h1:first-child, h2:first-child, h3:first-child {
-    margin-top: 0;
 }

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Files</h1>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Copies</th>
+        </tr>
+        {% for file in files %}
+            <tr {% ifequal file.id selected.id %}class="selected"{% endifequal %}>
+                <td><a href="{% url 'select_file' file.id %}">{{ file.name }}</a></td>
+                <td>{{ file.readable_size }}</td>
+                <td>{{ file.readable_copies }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -3,10 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from finder.views import (picture, upload_picture, list_folders, select_folder, delete_folder,
-                          change_folder_comment, remove_folder_comment)
+from finder.views import index
+from finder.oldviews import (picture, upload_picture, list_folders, select_folder, delete_folder,
+                             change_folder_comment, remove_folder_comment)
 
 urlpatterns = [
+    path('', index, name='index'),
+    path('select/<int:selected_id>/', index, name='select_file'),
+    # oldviews
     path('pictures/<int:pic_id>/', picture, name='picture'),
     path('pictures/upload/', upload_picture, name='upload_picture'),
     path('folders/', list_folders, name='list_folders'),
@@ -14,6 +18,7 @@ urlpatterns = [
     path('folders/<int:folder_id>/delete/', delete_folder, name='delete_folder'),
     path('folders/<int:folder_id>/comment/change/', change_folder_comment, name='change_folder_comment'),
     path('folders/<int:folder_id>/comment/remove/', remove_folder_comment, name='remove_folder_comment'),
+    # end oldviews
     path('admin/', admin.site.urls),
 ]
 
