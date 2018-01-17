@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
+{% load mur_tags %}
 
 {% block content %}
     <h1>Files</h1>
-
     <table>
         <tr>
             <th>Name</th>
@@ -10,11 +10,43 @@
             <th>Copies</th>
         </tr>
         {% for file in files %}
-            <tr {% ifequal file.id selected.id %}class="selected"{% endifequal %}>
+            {% if selected_file and file.id == selected_file.id %}
+            <tr class="selected">
+            {% else %}
+            <tr>
+            {% endif %}
                 <td><a href="{% url 'select_file' file.id %}">{{ file.name }}</a></td>
                 <td>{{ file.readable_size }}</td>
                 <td>{{ file.readable_copies }}</td>
             </tr>
         {% endfor %}
     </table>
+
+    {% if selected_file %}
+        <h2>File</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>{{ selected_file.name }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ selected_file.readable_size }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td class="comment">
+                    {{ selected_file.comment|commonmark }}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Copies</th>
+                <td>{{ selected_file.readable_copies }}</td>
+                <td></td>
+            </tr>
+        </table>
+    {% endif %}
 {% endblock %}

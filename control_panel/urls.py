@@ -9,7 +9,8 @@ from finder.oldviews import (picture, upload_picture, list_folders, select_folde
 
 urlpatterns = [
     path('', index, name='index'),
-    path('select/<int:selected_id>/', index, name='select_file'),
+    path('files/<int:file_id>/', index, name='select_file'),
+    path('folders/<int:folder_id>/', index, name='select_folder'),
     # oldviews
     path('pictures/<int:pic_id>/', picture, name='picture'),
     path('pictures/upload/', upload_picture, name='upload_picture'),
