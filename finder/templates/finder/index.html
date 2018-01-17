@@ -10,12 +10,8 @@
             <th>Copies</th>
         </tr>
         {% for file in files %}
-            {% if selected_file and file.id == selected_file.id %}
-            <tr class="selected">
-            {% else %}
-            <tr>
-            {% endif %}
-                <td><a href="{% url 'select_file' file.id %}">{{ file.name }}</a></td>
+            <tr {% if file|equals:selected_file %}class="selected"{% endif %}>
+                <td><a href="{% url 'select_any' 'File' file.id %}">{{ file.name }}</a></td>
                 <td>{{ file.readable_size }}</td>
                 <td>{{ file.readable_copies }}</td>
             </tr>
@@ -37,7 +33,7 @@
             </tr>
             <tr>
                 <th>Comment</th>
-                <td class="comment">
+                <td {% if selected_file.comment %}class="comment"{% endif %}>
                     {{ selected_file.comment|commonmark }}
                 </td>
                 <td></td>

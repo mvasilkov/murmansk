@@ -1,16 +1,18 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import register_converter, path
 
+from finder.converters import ModelNameConverter
 from finder.views import index
 from finder.oldviews import (picture, upload_picture, list_folders, select_folder, delete_folder,
                              change_folder_comment, remove_folder_comment)
 
+register_converter(ModelNameConverter, 'any')
+
 urlpatterns = [
     path('', index, name='index'),
-    path('files/<int:file_id>/', index, name='select_file'),
-    path('folders/<int:folder_id>/', index, name='select_folder'),
+    path('select/<any:model_name>/<int:model_id>/', index, name='select_any'),
     # oldviews
     path('pictures/<int:pic_id>/', picture, name='picture'),
     path('pictures/upload/', upload_picture, name='upload_picture'),
