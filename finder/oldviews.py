@@ -3,7 +3,7 @@ import hashlib
 from django.http.response import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import PictureForm, FolderNameForm, FolderCommentForm
+from .forms import PictureForm, FolderNameForm, CommentForm
 from .models import Picture, Folder
 
 
@@ -89,15 +89,15 @@ def change_folder_comment(request, folder_id: int):
     folder = get_object_or_404(Folder, id=folder_id)
 
     if request.method == 'POST':
-        form = FolderCommentForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
             folder.comment = form.cleaned_data['comment']
             folder.save()
             return redirect(folder)
     else:
-        form = FolderCommentForm({'comment': folder.comment})
+        form = CommentForm({'comment': folder.comment})
 
-    return render(request, 'dir/change_folder_comment.html', {'form': form})
+    return render(request, 'finder/change_comment.html', {'form': form})
 
 
 def remove_folder_comment(request, folder_id: int):

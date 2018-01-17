@@ -36,7 +36,9 @@
                 <td {% if selected_file.comment %}class="comment"{% endif %}>
                     {{ selected_file.comment|commonmark }}
                 </td>
-                <td></td>
+                <td>
+                    <a href="{% url 'change_comment' 'File' selected_file.id %}">Change comment</a>
+                </td>
             </tr>
             <tr>
                 <th>Copies</th>

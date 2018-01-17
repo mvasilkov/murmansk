@@ -17,5 +17,5 @@ class FolderNameForm(forms.Form):
         return folder_name
 
 
-class FolderCommentForm(forms.Form):
+class CommentForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea, required=False)
