@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http.response import HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 
 from diskarray.models import File
@@ -14,7 +14,7 @@ MODELS = {
 def index(request, *, model_name: str = None, model_id: int = None):
     if model_name is not None:
         if model_name not in MODELS:
-            raise Http404
+            return HttpResponseNotFound()
 
         selected_model = get_object_or_404(MODELS[model_name], id=model_id)
     else:
@@ -30,7 +30,7 @@ def index(request, *, model_name: str = None, model_id: int = None):
 
 def change_comment(request, *, model_name: str, model_id: int):
     if model_name not in MODELS:
-        raise Http404
+        return HttpResponseNotFound()
 
     selected_model = get_object_or_404(MODELS[model_name], id=model_id)
 
@@ -44,3 +44,16 @@ def change_comment(request, *, model_name: str, model_id: int):
         form = CommentForm({'comment': selected_model.comment})
 
     return render(request, 'finder/change_comment.html', {'form': form})
+
+
+def remove_comment(request, *, model_name: str, model_id: int):
+    if model_name not in MODELS:
+        return HttpResponseNotFound()
+
+    if request.method == 'POST':
+        selected_model = get_object_or_404(MODELS[model_name], id=model_id)
+        selected_model.comment = ''
+        selected_model.save()
+        return redirect('select_any', model_name=model_name, model_id=model_id)
+
+    return HttpResponseNotAllowed(permitted_methods=['POST'])

@@ -38,6 +38,12 @@
                 </td>
                 <td>
                     <a href="{% url 'change_comment' 'File' selected_file.id %}">Change comment</a>
+                    <form action="{% url 'remove_comment' 'File' selected_file.id %}" method="post">
+                        <p>
+                            {% csrf_token %}
+                            <input type="submit" value="Remove comment">
+                        </p>
+                    </form>
                 </td>
             </tr>
             <tr>

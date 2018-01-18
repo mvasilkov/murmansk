@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.urls import register_converter, path
 
 from finder.converters import ModelNameConverter
-from finder.views import index, change_comment
+from finder.views import index, change_comment, remove_comment
 from finder.oldviews import (picture, upload_picture, list_folders, select_folder, delete_folder,
                              change_folder_comment, remove_folder_comment)
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('select/<any:model_name>/<int:model_id>/', index, name='select_any'),
     path('change_comment/<any:model_name>/<int:model_id>/', change_comment, name='change_comment'),
+    path('remove_comment/<any:model_name>/<int:model_id>/', remove_comment, name='remove_comment'),
     # oldviews
     path('pictures/<int:pic_id>/', picture, name='picture'),
     path('pictures/upload/', upload_picture, name='upload_picture'),
