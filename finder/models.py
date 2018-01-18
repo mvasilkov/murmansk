@@ -49,6 +49,9 @@ class Folder(MPTTModel):
     pictures = models.ManyToManyField(Picture, related_name='folders', blank=True)
     comment = models.TextField(blank=True)
 
+    def visual_padding(self):
+        return 'padding-left: %dpx' % (self.level * 25) if self.level else ''
+
     def get_absolute_url(self):
         return reverse('select_folder', args=[self.id])
 

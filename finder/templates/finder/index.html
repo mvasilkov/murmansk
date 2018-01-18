@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load mptt_tags %}
 {% load mur_tags %}
 
 {% block content %}
@@ -9,6 +10,15 @@
             <th>Size</th>
             <th>Copies</th>
         </tr>
+        {% for folder in folders %}
+            <tr {% if folder|equals:selected_folder %}class="selected"{% endif %}>
+                <td style="{{ folder.visual_padding }}">
+                    <a href="{% url 'select_any' 'Folder' folder.id %}">{{ folder.name }}</a>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
         {% for file in files %}
             <tr {% if file|equals:selected_file %}class="selected"{% endif %}>
                 <td><a href="{% url 'select_any' 'File' file.id %}">{{ file.name }}</a></td>
@@ -41,7 +51,7 @@
                     <form action="{% url 'remove_comment' 'File' selected_file.id %}" method="post">
                         <p>
                             {% csrf_token %}
-                            <input type="submit" value="Remove comment">
+                            <input type="submit" value="Remove comment" disabled>
                         </p>
                     </form>
                 </td>
@@ -50,6 +60,32 @@
                 <th>Copies</th>
                 <td>{{ selected_file.readable_copies }}</td>
                 <td></td>
+            </tr>
+        </table>
+    {% endif %}
+
+    {% if selected_folder %}
+        <h2>Folder</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>{{ selected_folder.name }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td {% if selected_folder.comment %}class="comment"{% endif %}>
+                    {{ selected_folder.comment|commonmark }}
+                </td>
+                <td>
+                    <a href="{% url 'change_comment' 'Folder' selected_folder.id %}">Change comment</a>
+                    <form action="{% url 'remove_comment' 'Folder' selected_folder.id %}" method="post">
+                        <p>
+                            {% csrf_token %}
+                            <input type="submit" value="Remove comment" disabled>
+                        </p>
+                    </form>
+                </td>
             </tr>
         </table>
     {% endif %}
