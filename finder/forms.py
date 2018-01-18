@@ -18,4 +18,4 @@ class FolderNameForm(forms.Form):
 
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea, required=False)
+    comment = forms.CharField(widget=forms.Textarea(attrs={'rows': 20, 'cols': 80}), required=False)
