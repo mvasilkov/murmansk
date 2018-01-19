@@ -21,7 +21,7 @@ def index(request, *, model_name: str = None, model_id: int = None):
         selected_model = None
 
     return render(request, 'finder/index.html', {
-        'files': File.objects.all(),
+        'files': File.objects.filter(folders=None),
         'folders': Folder.objects.all(),
         'selected_file': selected_model if model_name == 'File' else None,
         'selected_folder': selected_model if model_name == 'Folder' else None,

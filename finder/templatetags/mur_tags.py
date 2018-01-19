@@ -5,6 +5,8 @@ from mur.commonmark import commonmark
 
 register = template.Library()
 
+FOLDER_PADDING = 25
+
 
 @register.filter(name='commonmark')
 def commonmark_filter(string):
@@ -19,3 +21,9 @@ def classname_filter(instance):
 @register.filter(name='equals')
 def equals_filter(model, another_model):
     return model.id == another_model.id if another_model else False
+
+
+@register.filter(name='padding')
+def padding_filter(folder, inside=False):
+    level = folder.level * FOLDER_PADDING + (FOLDER_PADDING if inside else 0)
+    return ('padding-left: %dpx' % level) if level else ''

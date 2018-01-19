@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load mptt_tags %}
 {% load mur_tags %}
 
 {% block content %}
@@ -12,19 +11,18 @@
         </tr>
         {% for folder in folders %}
             <tr {% if folder|equals:selected_folder %}class="selected"{% endif %}>
-                <td style="{{ folder.visual_padding }}">
+                <td style="{{ folder|padding }}">
                     <a href="{% url 'select_any' 'Folder' folder.id %}">{{ folder.name }}</a>
                 </td>
                 <td></td>
                 <td></td>
             </tr>
+            {% for file in folder.files.all %}
+                {% include './inc/file.html' with file=file folder=folder %}
+            {% endfor %}
         {% endfor %}
         {% for file in files %}
-            <tr {% if file|equals:selected_file %}class="selected"{% endif %}>
-                <td><a href="{% url 'select_any' 'File' file.id %}">{{ file.name }}</a></td>
-                <td>{{ file.readable_size }}</td>
-                <td>{{ file.readable_copies }}</td>
-            </tr>
+            {% include './inc/file.html' with file=file %}
         {% endfor %}
     </table>
 

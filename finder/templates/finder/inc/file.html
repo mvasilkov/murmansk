@@ -1,0 +1,9 @@
+{% load mur_tags %}
+
+<tr {% if file|equals:selected_file %}class="selected"{% endif %}>
+    <td {% if folder %}style="{{ folder|padding:True }}"{% endif %}>
+        <a href="{% url 'select_any' 'File' file.id %}">{{ file.name }}</a>
+    </td>
+    <td>{{ file.readable_size }}</td>
+    <td>{{ file.readable_copies }}</td>
+</tr>
