@@ -2,7 +2,7 @@ from django.http.response import HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 
 from diskarray.models import File
-from .forms import CommentForm
+from .forms import CommentForm, FilenameForm, FolderNameForm
 from .models import Folder
 
 MODELS = {
@@ -57,3 +57,33 @@ def remove_comment(request, *, model_name: str, model_id: int):
         return redirect('select_any', model_name=model_name, model_id=model_id)
 
     return HttpResponseNotAllowed(permitted_methods=['POST'])
+
+
+def rename_file(request, *, file_id: int):
+    file = get_object_or_404(File, id=file_id)
+
+    if request.method == 'POST':
+        form = FilenameForm(request.POST)
+        if form.is_valid():
+            file.name = form.cleaned_data['filename']
+            file.save()
+            return redirect('select_any', model_name='File', model_id=file_id)
+    else:
+        form = FilenameForm({'filename': file.name})
+
+    return render(request, 'finder/rename_file.html', {'form': form})
+
+
+def rename_folder(request, *, folder_id: int):
+    folder = get_object_or_404(Folder, id=folder_id)
+
+    if request.method == 'POST':
+        form = FolderNameForm(request.POST)
+        if form.is_valid():
+            folder.name = form.cleaned_data['folder_name']
+            folder.save()
+            return redirect('select_any', model_name='Folder', model_id=folder_id)
+    else:
+        form = FolderNameForm({'folder_name': folder.name})
+
+    return render(request, 'finder/rename_folder.html', {'form': form})

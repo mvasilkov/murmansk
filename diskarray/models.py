@@ -106,7 +106,7 @@ class File(models.Model):
         return self.sha256[:7]
 
     def guess_media_class(self):
-        if self.name.endswith('.mp4') or self.name.endswith('.mkv'):
+        if self.name.endswith('.mp4') or self.name.endswith('.mkv') or self.name.endswith('.avi'):
             return File.VIDEO
 
         return File.BINARY

@@ -7,8 +7,12 @@ class PictureForm(forms.Form):
     upload_picture = forms.ImageField()
 
 
+class FilenameForm(forms.Form):
+    filename = forms.CharField(max_length=250, strip=True, widget=forms.TextInput(attrs={'size': 60}))
+
+
 class FolderNameForm(forms.Form):
-    folder_name = forms.CharField(max_length=250, strip=True)
+    folder_name = forms.CharField(max_length=250, strip=True, widget=forms.TextInput(attrs={'size': 60}))
 
     def clean_folder_name(self):
         folder_name = self.cleaned_data['folder_name']

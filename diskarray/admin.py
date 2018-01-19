@@ -16,7 +16,7 @@ class FileAdmin(admin.ModelAdmin):
 
 @admin.register(FileCopy)
 class FileCopyAdmin(admin.ModelAdmin):
-    list_display = ('file', 'disk', 'is_healthy', 'last_checked')
+    list_display = ('path', 'disk', 'is_healthy', 'last_checked')
 
 
 @admin.register(Oplog)

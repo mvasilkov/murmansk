@@ -12,6 +12,6 @@
     padding: 18px 20px;
 }
 
-textarea#id_comment {
+textarea#id_comment, input#id_filename, input#id_folder_name {
     font-size: 16px;
 }
