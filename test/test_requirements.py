@@ -8,6 +8,7 @@ from mongo.objectid import ObjectId
 from mur.commands import sha256
 from mur.commonmark import commonmark, version as cmark_version
 import requests
+from videoprops import test_requirements as videoprops_check
 
 
 def test_python3():
@@ -40,3 +41,7 @@ def test_django(live_server):
         str(live_server) + '/static/node_modules/systematize/build/systematize.css')
     assert r.status_code == 200
     assert r.text.startswith('/*! systematize.scss | MIT License')
+
+
+def test_videoprops():
+    videoprops_check()
