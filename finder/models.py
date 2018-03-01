@@ -48,6 +48,13 @@ class Folder(MPTTModel):
                             db_index=True)
     pictures = models.ManyToManyField(Picture, related_name='folders', blank=True)
     comment = models.TextField(blank=True)
+    is_collapsed = models.BooleanField(default=False)
+
+    def collapse_subdirectories(self):
+        for folder in self.subdirectories.filter(is_collapsed=False):
+            folder.collapse_subdirectories()
+            folder.is_collapsed = True
+            folder.save()
 
     def get_absolute_url(self):
         return reverse('select_folder', args=[self.id])

@@ -22,7 +22,7 @@ def index(request, *, model_name: str = None, model_id: int = None):
 
     return render(request, 'finder/index.html', {
         'files': File.objects.filter(folders=None),
-        'folders': Folder.objects.all(),
+        'folders': Folder.objects.exclude(parent__is_collapsed=True),
         'selected_file': selected_model if model_name == 'File' else None,
         'selected_folder': selected_model if model_name == 'Folder' else None,
     })
@@ -87,3 +87,14 @@ def rename_folder(request, *, folder_id: int):
         form = FolderNameForm({'folder_name': folder.name})
 
     return render(request, 'finder/rename_folder.html', {'form': form})
+
+
+def collapse_folder(request, *, folder_id: int, collapse: bool):
+    folder = get_object_or_404(Folder, id=folder_id)
+
+    if collapse:
+        folder.collapse_subdirectories()
+
+    folder.is_collapsed = collapse
+    folder.save()
+    return redirect('select_any', model_name='Folder', model_id=folder_id)

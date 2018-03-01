@@ -3,12 +3,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import register_converter, path
 
-from finder.converters import ModelNameConverter
-from finder.views import index, change_comment, remove_comment, rename_file, rename_folder
+from finder.converters import ModelNameConverter, BooleanConverter
+from finder.views import index, change_comment, remove_comment, rename_file, rename_folder, collapse_folder
 from finder.oldviews import (picture, upload_picture, list_folders, select_folder, delete_folder,
                              change_folder_comment, remove_folder_comment)
 
 register_converter(ModelNameConverter, 'any')
+register_converter(BooleanConverter, 'bool')
 
 urlpatterns = [
     path('', index, name='index'),
@@ -17,6 +18,7 @@ urlpatterns = [
     path('remove_comment/<any:model_name>/<int:model_id>/', remove_comment, name='remove_comment'),
     path('rename_file/<int:file_id>/', rename_file, name='rename_file'),
     path('rename_folder/<int:folder_id>/', rename_folder, name='rename_folder'),
+    path('collapse_folder/<int:folder_id>/<bool:collapse>/', collapse_folder, name='collapse_folder'),
     # oldviews
     path('pictures/<int:pic_id>/', picture, name='picture'),
     path('pictures/upload/', upload_picture, name='upload_picture'),

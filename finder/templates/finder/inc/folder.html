@@ -1,0 +1,12 @@
+{% load mur_tags %}
+
+<tr {% if folder|equals:selected_folder %}class="selected"{% endif %}>
+    <td style="{{ folder|padding }}">
+        <a href="{% url 'select_any' 'Folder' folder.id %}">{{ folder.name }}</a>
+        <small><a href="{% url 'collapse_folder' folder.id folder.is_collapsed|inverse %}">
+            {{ folder.is_collapsed|yesno:'Expand,Collapse' }}
+        </a></small>
+    </td>
+    <td></td>
+    <td></td>
+</tr>

@@ -27,3 +27,8 @@ def equals_filter(model, another_model):
 def padding_filter(folder, inside=False):
     level = folder.level * FOLDER_PADDING + (FOLDER_PADDING if inside else 0)
     return ('padding-left: %dpx' % level) if level else ''
+
+
+@register.filter(name='inverse')
+def inverse_filter(value):
+    return not value

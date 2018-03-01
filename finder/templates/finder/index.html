@@ -10,16 +10,12 @@
             <th>Copies</th>
         </tr>
         {% for folder in folders %}
-            <tr {% if folder|equals:selected_folder %}class="selected"{% endif %}>
-                <td style="{{ folder|padding }}">
-                    <a href="{% url 'select_any' 'Folder' folder.id %}">{{ folder.name }}</a>
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            {% for file in folder.files.all %}
-                {% include './inc/file.html' with file=file folder=folder %}
-            {% endfor %}
+            {% include './inc/folder.html' with folder=folder %}
+            {% if not folder.is_collapsed %}
+                {% for file in folder.files.all %}
+                    {% include './inc/file.html' with file=file folder=folder %}
+                {% endfor %}
+            {% endif %}
         {% endfor %}
         {% for file in files %}
             {% include './inc/file.html' with file=file %}
