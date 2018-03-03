@@ -2,9 +2,9 @@
 __pycache__/
 /.cache/
 /node_modules/
+/.pytest_cache/
 
 # IntelliJ
-
 /.idea/
 /murmansk.iml
 
