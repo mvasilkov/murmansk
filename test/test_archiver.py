@@ -4,11 +4,11 @@ import tarfile
 
 from mur.archiver import recompress_tar
 
-genbytes_tab = bytes.maketrans(bytearray(range(256)),
-                               bytearray([ord(b'a') + b % 26 for b in range(256)]))
+genbytes_tab = bytes.maketrans(
+    bytearray(range(256)), bytearray([ord(b'a') + b % 26 for b in range(256)]))
 
 
-def genbytes(size: int = 2 ** 20):
+def genbytes(size: int = 2**20):
     return os.urandom(size).translate(genbytes_tab)
 
 
@@ -20,7 +20,30 @@ def cleanup(*args: str):
             pass
 
 
-def test_recompress_ratio():
+def test_recompress_roundtrip():
+    contents_a = genbytes(2**10)
+    contents_b = genbytes(2**10)
+
+    with open('a.txt', 'wb') as outfile:
+        outfile.write(contents_a)
+    with open('b.txt', 'wb') as outfile1:
+        outfile1.write(contents_b)
+    with tarfile.open('ab.tar', 'w') as outfile2:
+        outfile2.add('a.txt')
+        outfile2.add('b.txt')
+
+    try:
+        outpath = recompress_tar(Path('ab.tar'))
+        with tarfile.open(outpath) as tar:
+            a = tar.extractfile('a.txt')
+            b = tar.extractfile('b.txt')
+            assert a.read() == contents_a
+            assert b.read() == contents_b
+    finally:
+        cleanup('a.txt', 'b.txt', 'ab.tar', 'ab.tar.xz')
+
+
+def test_recompress_preset():
     contents = genbytes()
 
     with open('ab.txt', 'wb') as outfile:

@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 SAFE_CHARACTERS = frozenset(ascii_letters + digits)
 
 
-def recompress_tar(path: Path, **kwargs) -> Path:
+def recompress_tar(path: Path, *, preset: int = 9) -> Path:
     assert path.suffix == '.tar'
     tar = tarfile.open(path)
 
@@ -19,7 +19,7 @@ def recompress_tar(path: Path, **kwargs) -> Path:
         tar.extractall(tempdir)
 
         outpath = path.with_suffix('.tar.xz')
-        with tarfile.open(outpath, 'x:xz', **kwargs) as outfile:
+        with tarfile.open(outpath, 'x:xz', preset=preset) as outfile:
             for name in tar.getnames():
                 outfile.add(tempdir / name, arcname=name)
 
