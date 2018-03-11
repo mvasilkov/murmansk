@@ -1,0 +1,3 @@
+[django]
+settings-module = 'control_panel.settings'
+routes-module = 'control_panel.routes'
