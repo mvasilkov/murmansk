@@ -102,6 +102,9 @@ class File(models.Model):
         return '%s (%s)' % (format_size(self.size, binary=True),
                             format_size(self.size))
 
+    def readable_disks(self):
+        return ', '.join(self.copies.values_list('disk__name', flat=True))
+
     def short_sha256(self):
         return self.sha256[:7]
 

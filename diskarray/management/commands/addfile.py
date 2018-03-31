@@ -67,10 +67,22 @@ class Command(BaseCommand):
         else:
             file = existing_file
 
-        copy = FileCopy(
-            disk=disk,
-            file=file,
-            path=relpath(path, disk.live_mount_point),
-            is_healthy=True,
-            last_checked=datetime.now())
+        relative_path = relpath(path, disk.live_mount_point)
+        try:
+            copy = FileCopy.objects.get(
+                disk=disk,
+                file=file,
+                path=relative_path)
+        except FileCopy.DoesNotExist:
+            copy = FileCopy(
+                disk=disk,
+                file=file,
+                path=relative_path,
+                is_healthy=True,
+                last_checked=datetime.now())
+        else:
+            self.stdout.write('Found existing copy')
+            copy.is_healthy = True
+            copy.last_checked = datetime.now()
+
         copy.save()

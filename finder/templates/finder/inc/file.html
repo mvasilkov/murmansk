@@ -5,5 +5,5 @@
         <a href="{% url 'select_any' 'File' file.id %}">{{ file.name }}</a>
     </td>
     <td>{{ file.readable_size }}</td>
-    <td>{{ file.readable_copies }}</td>
+    <td title="{{ file.readable_disks }}">{{ file.readable_copies }}</td>
 </tr>
