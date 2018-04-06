@@ -42,6 +42,11 @@ STATICFILES_FINDERS = [
     'yarn.finders.YarnFinder',
 ]
 
+YARN_ALLOW_FILES = [
+    '*.css',
+    '*.js',
+]
+
 YARN_ROOT_PATH = DJANGO_ROOT.as_posix()
 
 YARN_STATIC_FILES_PREFIX = 'node_modules'
