@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http.response import HttpResponseNotAllowed, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -22,7 +23,7 @@ def index(request, *, model_name: str = None, model_id: int = None):
 
     return render(request, 'finder/index.html', {
         'files': File.objects.filter(folders=None),
-        'folders': Folder.objects.exclude(parent__is_collapsed=True),
+        'folders': Folder.objects.filter(Q(parent__isnull=True) | Q(parent__is_collapsed=False)),
         'selected_file': selected_model if model_name == 'File' else None,
         'selected_folder': selected_model if model_name == 'Folder' else None,
     })
