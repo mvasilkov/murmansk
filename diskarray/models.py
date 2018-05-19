@@ -118,7 +118,7 @@ class File(models.Model):
 class FileCopy(models.Model):
     NEVER = datetime(1970, 1, 1)
 
-    disk = models.ForeignKey(Disk, on_delete=models.PROTECT)
+    disk = models.ForeignKey(Disk, on_delete=models.PROTECT, related_name='copies')
     file = models.ForeignKey(File, on_delete=models.PROTECT, related_name='copies')
     path = models.CharField(max_length=1000)  # relative to disk.mount_point
     is_healthy = models.BooleanField()

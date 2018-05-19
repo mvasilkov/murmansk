@@ -15,6 +15,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('disk')
         parser.add_argument('path')
+        parser.add_argument('--copy', action='store_true')
 
     def handle(self, *args, **options):
         self.stdout.write('---')
@@ -58,6 +59,9 @@ class Command(BaseCommand):
             existing_file = None
         else:
             self.stdout.write('Existing file: %s' % existing_file)
+
+        if options['copy'] and existing_file is None:
+            raise CommandError('Unknown file | not a copy')
 
         if existing_file is None:
             file = File(name=basename(path), size=size, sha256=shasum)
