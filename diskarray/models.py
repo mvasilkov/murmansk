@@ -88,7 +88,7 @@ class File(models.Model):
     name = models.CharField(max_length=250)
     size = models.BigIntegerField()
     sha256 = models.CharField(max_length=64, unique=True)
-    storage_class = models.PositiveSmallIntegerField(default=1)
+    storage_class = models.PositiveSmallIntegerField(default=2)
     media_class = models.CharField(max_length=10, choices=MEDIA_CLASSES, default=BINARY)
     created = models.DateTimeField(auto_now_add=True)
     folders = models.ManyToManyField('finder.Folder', related_name='files', blank=True)
