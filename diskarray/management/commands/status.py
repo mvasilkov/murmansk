@@ -23,11 +23,14 @@ class Command(BaseCommand):
 
         self.stdout.write('\nNeed to check the following disks:')
 
+        if not annotated_disks.count():
+            self.stdout.write('\tNobody here but us chickens')
+
         for disk in annotated_disks:
             if not disk.unsure_count:
                 continue
 
-            self.stdout.write(f'- {disk.name} (not sure about {disk.unsure_count} file copies)')
+            self.stdout.write(f'\t- {disk.name} (not sure about {disk.unsure_count} file copies)')
 
             if verbosity > 1:
                 for copy in FileCopy.objects.filter(disk=disk, last_checked__lt=before).select_related('file'):
@@ -38,7 +41,8 @@ class Command(BaseCommand):
 
         self.stdout.write('\nNeed to add copies the following files:')
 
+        if not annotated_files.count():
+            self.stdout.write('\tNobody here but us chickens')
+
         for file in annotated_files:
             self.stdout.write(f'\t- {file.name} ({file.readable_copies()})')
-        else:
-            self.stdout.write('\tNobody here but us chickens')

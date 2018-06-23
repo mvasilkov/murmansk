@@ -4,9 +4,11 @@ from subprocess import CalledProcessError
 
 from django.core.management.base import BaseCommand, CommandError
 
-from diskarray.models import Disk, Oplog
+from diskarray.models import Disk, FileCopy, Oplog
 from mur import MUR_DISK
 from mur.commands import sha256
+
+from .status import CONFIDENCE_INTERVAL
 
 
 class Command(BaseCommand):
@@ -14,6 +16,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('disk')
+        parser.add_argument('--everything', action='store_true')
 
     def handle(self, *args, **options):
         self.stdout.write('---')
@@ -27,7 +30,13 @@ class Command(BaseCommand):
             raise CommandError('Disk is not mounted')
         assert disk.live_mount_point
 
-        for copy in disk.copies.all():
+        if options['everything']:
+            copies = disk.copies.all()
+        else:
+            before = datetime.now() - CONFIDENCE_INTERVAL
+            copies = FileCopy.objects.filter(disk=disk, last_checked__lt=before)
+
+        for copy in copies:
             self.check_copy(disk, copy)
 
     def check_copy(self, disk, copy):
