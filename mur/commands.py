@@ -1,10 +1,20 @@
+from pathlib import WindowsPath
+import platform
 import re
 import subprocess
 
+MSDOS = platform.system() == 'Windows'
+
+
+def rhash():
+    binary_dependencies = WindowsPath(__file__).parents[1] / 'binary_dependencies'
+    return str(binary_dependencies / 'rhash.exe')
+
 
 def sha256(path):
+    binary = (rhash(), '--sha256') if MSDOS else ('openssl', 'dgst', '-sha256', '-r')
     p = subprocess.run(
-        ['openssl', 'dgst', '-sha256', '-r', path],
+        [*binary, path],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         check=True,

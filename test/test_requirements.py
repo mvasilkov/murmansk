@@ -31,7 +31,7 @@ def test_commonmark():
 def test_openssl():
     version = check_output(['openssl', 'version'], encoding='utf-8')
     assert version.startswith('OpenSSL 1.0')
-    assert (sha256(__file__.replace('test_requirements.py', 'utf-8.txt')) ==
+    assert (sha256(__file__.replace('test_requirements.py', 'Мурманск.utf-8.txt')) ==
             '4e879c5c63684e8f23998c3a170cc1c5f789808a6ffaf4cef5fd7ab2a4d1bc81')
 
 
