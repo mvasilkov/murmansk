@@ -2,6 +2,6 @@
 # yarn lockfile v1
 
 
-systematize@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/systematize/-/systematize-2.0.0.tgz#86d0f50b33582791b137d8e5af51dbe7e2327e58"
+systematize@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/systematize/-/systematize-3.2.0.tgz#1de9fdb8ee0bc8f124d917642383bf98bb7e05c4"

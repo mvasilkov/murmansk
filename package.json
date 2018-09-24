@@ -8,6 +8,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "systematize": "^2.0.0"
+    "systematize": "^3.2.0"
   }
 }
